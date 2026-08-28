@@ -81,9 +81,19 @@ public class AgentChatService : IGenerationService
 
     private static (string Answer, IReadOnlyList<string> UsedParagraphRefs) ParseResponse(string raw)
     {
+        // Strip markdown code fences the model sometimes wraps around JSON.
+        string json = raw.Trim();
+        if (json.StartsWith("```"))
+        {
+            int firstNewline = json.IndexOf('\n');
+            int lastFence = json.LastIndexOf("```");
+            if (firstNewline > 0 && lastFence > firstNewline)
+                json = json[(firstNewline + 1)..lastFence].Trim();
+        }
+
         try
         {
-            using var doc = JsonDocument.Parse(raw);
+            using var doc = JsonDocument.Parse(json);
             var root = doc.RootElement;
             string answer = root.GetProperty("answer").GetString() ?? "";
             var refs = root.GetProperty("usedParagraphs")
@@ -95,7 +105,7 @@ public class AgentChatService : IGenerationService
         }
         catch
         {
-            return (raw, []);
+            return (json, []);
         }
     }
 }
