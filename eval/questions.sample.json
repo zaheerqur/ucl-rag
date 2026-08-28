@@ -1,0 +1,23 @@
+[
+  {
+    "id": "s01",
+    "question": "What is the minimum number of locally trained players a club must include on List A, and how many of those may be association-trained?",
+    "goldParagraph": "31.04",
+    "answerable": true,
+    "expectsToolCall": false
+  },
+  {
+    "id": "s02",
+    "question": "If a club has only five locally trained players available, what happens to the size of its List A, and what is the normal List A cap?",
+    "goldParagraph": "31.04,31.08",
+    "answerable": true,
+    "expectsToolCall": false
+  },
+  {
+    "id": "s03",
+    "question": "What is the salary cap that clubs must respect when signing Champions League players?",
+    "goldParagraph": "",
+    "answerable": false,
+    "expectsToolCall": false
+  }
+]

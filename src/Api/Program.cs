@@ -79,11 +79,14 @@ app.MapPost("/ask", async (AskRequest request, CancellationToken ct) =>
         })
         .ToList();
 
+    var retrievedRefs = chunks.Select(c => c.ParagraphRef).ToList();
+
     return Results.Ok(new AskResponse(
         Answer: generated.Answer,
         Citations: citations,
         UsedTool: generated.UsedTool,
-        RetrievalMode: retrievalMode));
+        RetrievalMode: retrievalMode,
+        RetrievedParagraphRefs: retrievedRefs));
 });
 
 app.Run();
