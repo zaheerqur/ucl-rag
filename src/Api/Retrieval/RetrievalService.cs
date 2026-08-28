@@ -40,11 +40,19 @@ public class RetrievalService
     public async Task<IReadOnlyList<RetrievedChunk>> SearchSparse(
         string query, int k, CancellationToken ct = default)
     {
+        // plainto_tsquery produces a strict AND of all content words, which causes
+        // 0-hit results when the question vocabulary doesn't perfectly overlap with
+        // the chunk text. Convert to OR so every chunk containing ANY query term is
+        // ranked; ts_rank then scores by term frequency, giving true BM25-like behaviour.
         const string sql = """
+            WITH q AS (
+                SELECT to_tsquery('english',
+                    replace(plainto_tsquery('english', $1)::text, ' & ', ' | ')) AS query
+            )
             SELECT id, article_number, paragraph_number, article_title, chunk_text,
-                   ts_rank(text_search, plainto_tsquery('english', $1)) AS score
-            FROM chunks
-            WHERE text_search @@ plainto_tsquery('english', $1)
+                   ts_rank(text_search, q.query) AS score
+            FROM chunks, q
+            WHERE text_search @@ q.query
             ORDER BY score DESC
             LIMIT $2
             """;

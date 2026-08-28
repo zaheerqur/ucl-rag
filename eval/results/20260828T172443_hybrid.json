@@ -1,13 +1,13 @@
 {
-  "Timestamp": "2026-08-28T16:43:40.1933050Z",
+  "Timestamp": "2026-08-28T17:24:43.9360900Z",
   "RetrievalMode": "hybrid",
   "TopK": 10,
   "RrfK": 60,
   "TotalQuestions": 30,
   "AnswerableCount": 25,
   "UnanswerableCount": 5,
-  "HitRate": 0.84,
-  "CitationAccuracy": 0.64,
+  "HitRate": 0.8,
+  "CitationAccuracy": 0.4,
   "AbstentionRate": 1,
   "ToolCallAccuracy": 1,
   "Questions": [
@@ -22,18 +22,18 @@
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "\u0060\u0060\u0060json\n{\n  \u0022answer\u0022: \u0022A club may have a maximum of 25 players on its main squad list (List A) during the season. However, at least 8 places among these players must be reserved for locally trained players, and no more than 4 of those 8 can be association-trained players.\u0022,\n  \u0022usedParagraphs\u0022: [\u002231.04\u0022]\n}\n\u0060\u0060\u0060",
+      "Answer": "\u0060\u0060\u0060json\n{\n  \u0022answer\u0022: \u0022A club may register a maximum of 25 players on List A of its main squad. However, eight places are reserved exclusively for \u0027locally trained players,\u0027 and no more than four of these eight can be \u0027association-trained players.\u0027 If a club has fewer than eight locally trained players, the maximum number of players on List A is reduced accordingly.\u0022,\n  \u0022usedParagraphs\u0022: [\u002231.04\u0022, \u002231.08\u0022]\n}\n\u0060\u0060\u0060",
       "RetrievedParagraphRefs": [
-        "31.11",
-        "31.08",
         "31.04",
         "31.10",
-        "31.13",
-        "32.04",
         "31.01",
         "32.02",
         "56.02",
-        "56.01"
+        "31.11",
+        "96.01-part2",
+        "31.08",
+        "31.14",
+        "80.01"
       ],
       "CitedParagraphRefs": [],
       "Error": null
@@ -49,18 +49,18 @@
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "According to regulation 31.04, eight places in the main squad list (List A) are reserved exclusively for \u0027locally trained players.\u0027 Of these eight places, no more than four can be filled by \u0027association-trained players.\u0027",
+      "Answer": "According to Article 31.04, a total of eight places in the main squad list (List A) are reserved exclusively for locally trained players. Out of these eight places, no more than four can be filled by association-trained players.",
       "RetrievedParagraphRefs": [
         "31.04",
         "31.05",
-        "31.08",
-        "31.07",
-        "32.04",
         "31.10",
-        "31.13",
-        "31.06",
-        "32.02",
-        "57.01"
+        "31.07",
+        "31.08",
+        "32.04",
+        "31.14",
+        "96.01-part2",
+        "96.01-part3",
+        "31.13"
       ],
       "CitedParagraphRefs": [
         "31.04"
@@ -74,24 +74,26 @@
       "Answerable": true,
       "ExpectsToolCall": false,
       "Hit": true,
-      "Cited": false,
+      "Cited": true,
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "\u0060\u0060\u0060json\n{\n  \u0022answer\u0022: \u0022If a club registers a new player during the qualifying phase and that causes List A to exceed 25 players, the club must remove a previously registered player to reduce the number of players on List A to 25. Additionally, the quota of locally trained players must be respected.\u0022,\n  \u0022usedParagraphs\u0022: [\u002231.10\u0022, \u002232.04\u0022, \u002231.04\u0022]\n}\n\u0060\u0060\u0060",
+      "Answer": "If a club registers a new player during the qualifying phase and that takes List A to 26 names, the club must remove one previously registered player from List A to reduce the total number to 25. This is required by regulation 31.10, which mandates that if the number of players on List A exceeds 25, the club must reduce the list by removing the necessary number of players previously registered.",
       "RetrievedParagraphRefs": [
         "31.10",
-        "32.04",
-        "31.11",
         "32.02",
+        "32.04",
+        "31.14",
+        "31.11",
+        "96.01-part2",
         "31.08",
+        "80.01",
         "31.13",
-        "31.01",
-        "32.01",
-        "31.04",
-        "31.03"
+        "31.01"
       ],
-      "CitedParagraphRefs": [],
+      "CitedParagraphRefs": [
+        "31.10"
+      ],
       "Error": null
     },
     {
@@ -101,26 +103,24 @@
       "Answerable": true,
       "ExpectsToolCall": false,
       "Hit": true,
-      "Cited": true,
+      "Cited": false,
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "Each club must register at least three goalkeepers in total across List A and List B, with at least two of them included on List A.",
+      "Answer": "\u0060\u0060\u0060json\n{\n  \u0022answer\u0022: \u0022A club must register at least two goalkeepers on List A and at least three goalkeepers in total (combined between List A and List B).\u0022,\n  \u0022usedParagraphs\u0022: [\u002231.13\u0022]\n}\n\u0060\u0060\u0060",
       "RetrievedParagraphRefs": [
-        "31.13",
         "31.14",
         "41.02",
-        "31.08",
-        "32.04",
-        "31.10",
         "56.02",
-        "32.01",
-        "31.11",
-        "30.02"
+        "31.10",
+        "32.04",
+        "31.13",
+        "96.01-part2",
+        "31.08",
+        "80.01",
+        "75.01"
       ],
-      "CitedParagraphRefs": [
-        "31.13"
-      ],
+      "CitedParagraphRefs": [],
       "Error": null
     },
     {
@@ -130,26 +130,24 @@
       "Answerable": true,
       "ExpectsToolCall": false,
       "Hit": true,
-      "Cited": true,
+      "Cited": false,
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "A player may be registered on List B if they are born on or after 1 January 2004 and have been eligible to play for the club since their 15th birthday for an uninterrupted period of two years, or a total of three consecutive years with a maximum of one loan period outside the club to a team from the same association for not longer than one year. Players aged 16 may also be registered on List B provided they have been registered with the participating club for the previous two years without interruption.",
+      "Answer": "\u0060\u0060\u0060json\n{\n  \u0022answer\u0022: \u0022A player can be registered on List B if they are born on or after 1 January 2004 and meet the following conditions: They must have been eligible to play for the club concerned for any uninterrupted period of two years since their 15th birthday, or a total of three consecutive years with a maximum of one loan period to a club from the same association lasting no longer than one year. Players aged 16 may also be registered on List B if they have been registered with the participating club for the previous two years without interruption.\u0022,\n  \u0022usedParagraphs\u0022: [\u002231.12\u0022]\n}\n\u0060\u0060\u0060",
       "RetrievedParagraphRefs": [
         "31.12",
+        "31.01",
+        "31.11",
+        "28.01",
         "31.04",
         "31.03",
         "31.08",
+        "31.14",
         "31.10",
-        "31.11",
-        "31.01",
-        "31.07",
-        "32.04",
-        "31.06"
+        "96.01-part5"
       ],
-      "CitedParagraphRefs": [
-        "31.12"
-      ],
+      "CitedParagraphRefs": [],
       "Error": null
     },
     {
@@ -159,24 +157,27 @@
       "Answerable": true,
       "ExpectsToolCall": false,
       "Hit": true,
-      "Cited": false,
+      "Cited": true,
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "\u0060\u0060\u0060json\n{\n  \u0022answer\u0022: \u0022Yes, a club can register a maximum of three new eligible players for the remaining matches in the current competition after the league phase ends and before the start of the knockout phase. Exceptionally, clubs participating in domestic championships that start and end in the same calendar year may be entitled to additional registrations under specific conditions (e.g., if more than five or seven players on List A are no longer registered with their national association as playing for the club). These registrations must be completed by 5 February 2026 (24:00 CET) at the latest.\u0022,\n  \u0022usedParagraphs\u0022: [\u002232.01\u0022, \u002232.02\u0022]\n}\n\u0060\u0060\u0060",
+      "Answer": "Yes, after the completion of the league phase and before the start of the knockout phase, a club may register a maximum of three new eligible players for the remaining matches in the current competition. Such registrations must be completed by 5 February 2026 (24:00 CET) at the latest (Paragraph 32.01). Additionally, in specific exceptional cases outlined in Paragraph 32.02, clubs might be entitled to register additional players (beyond three), depending on the number of players no longer registered with the club after the league phase.",
       "RetrievedParagraphRefs": [
-        "32.01",
         "32.02",
+        "31.14",
+        "32.01",
+        "30.05",
+        "96.01-part2",
         "31.10",
         "31.11",
+        "6.01",
         "32.03",
-        "31.06",
-        "82.02",
-        "30.05",
-        "31.14",
-        "42.06"
+        "96.01-part1"
       ],
-      "CitedParagraphRefs": [],
+      "CitedParagraphRefs": [
+        "32.01",
+        "32.02"
+      ],
       "Error": null
     },
     {
@@ -190,18 +191,18 @@
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "A team is allowed up to five substitutions during a match. Additionally, a sixth substitution is permitted exclusively during extra time in knockout matches. Substitutions can be made using a maximum of three stoppages in play during regular time, with one additional stoppage allowed during extra time. Substitutions made before the start of the match, during half-time, between the end of normal playing time and the start of extra time, or at half-time during extra time do not count toward the limit on stoppages in play.",
+      "Answer": "A team is allowed up to five substitutions during a match, with an additional sixth substitution permitted exclusively during extra time in knockout matches. Each team may use a maximum of three stoppages in play to make these substitutions, with one additional stoppage allowed in extra time. Substitutions made before the start of the match, during half-time, between the end of normal playing time and extra time, and at half-time during extra time do not count towards these stoppages.",
       "RetrievedParagraphRefs": [
-        "56.01",
         "56.02",
         "57.03",
+        "56.01",
         "57.01",
-        "50.04",
         "28.01",
+        "49.01",
+        "50.04",
+        "96.01-part2",
         "31.14",
-        "55.01",
-        "55.03",
-        "55.02"
+        "55.01"
       ],
       "CitedParagraphRefs": [
         "56.01"
@@ -215,26 +216,24 @@
       "Answerable": true,
       "ExpectsToolCall": false,
       "Hit": true,
-      "Cited": true,
+      "Cited": false,
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "If a knockout tie is level after both legs, two 15-minute periods of extra time are played at the end of the second leg. The team that scores more goals during extra time qualifies for the next stage. If both teams score the same number of goals or no goals are scored during extra time, the winner is determined by a penalty shoot-out.",
+      "Answer": "\u0060\u0060\u0060json\n{\n  \u0022answer\u0022: \u0022If a knockout tie is level after both legs, two 15-minute periods of extra time are played at the end of the second leg. If one team scores more goals during extra time, that team qualifies for the next stage. If the number of goals scored during extra time is also equal, a penalty shoot-out determines the winner and which team qualifies for the next stage.\u0022,\n  \u0022usedParagraphs\u0022: [\u002221.01\u0022]\n}\n\u0060\u0060\u0060",
       "RetrievedParagraphRefs": [
         "21.01",
+        "15.02",
+        "14.03",
+        "19.03",
+        "19.02",
+        "96.01-part1",
         "20.01",
         "20.02",
-        "15.02",
-        "19.02",
-        "14.03",
-        "22.01",
-        "15.01",
-        "19.03",
-        "19.01"
+        "96.01-part2",
+        "82.01"
       ],
-      "CitedParagraphRefs": [
-        "21.01"
-      ],
+      "CitedParagraphRefs": [],
       "Error": null
     },
     {
@@ -248,18 +247,18 @@
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "According to the UEFA Champions League regulations, at least 5% of the UEFA spectator capacity must be made available to visiting supporters. Additionally, the price of the tickets allocated to visiting supporters must not exceed the price paid by home supporters for tickets in a comparable sector of the stadium and cannot exceed \u20AC50 (Paragraph 45.01).",
+      "Answer": "According to regulation [45.01], the home club must make at least 5% of the spectator capacity of the stadium available to visiting supporters. The ticket prices for visiting supporters cannot exceed the price paid by home supporters for adult tickets in a comparable sector of the stadium. Additionally, in no case shall the price of tickets for visiting supporters exceed \u20AC50.",
       "RetrievedParagraphRefs": [
-        "45.05",
         "45.01",
         "45.04",
+        "45.05",
+        "96.01-part2",
+        "96.01-part4",
         "45.02",
         "46.04",
+        "96.01-part3",
         "45.03",
-        "57.02",
-        "75.02",
-        "46.05",
-        "67.01"
+        "49.01"
       ],
       "CitedParagraphRefs": [
         "45.01"
@@ -277,18 +276,18 @@
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "The winning team is presented with 50 gold medals, and the runner-up is presented with 50 silver medals.",
+      "Answer": "According to Paragraph 11.03 of the regulations, the winning team in the UEFA Champions League final is presented with 50 gold medals, and the losing team is presented with 50 silver medals.",
       "RetrievedParagraphRefs": [
         "11.03",
+        "83.05",
+        "68.01",
+        "76.04",
+        "80.01",
         "83.06",
         "22.01",
+        "18.01",
         "19.05",
-        "68.01",
-        "83.05",
-        "11.01",
-        "19.04",
-        "76.04",
-        "53.03"
+        "96.01-part1"
       ],
       "CitedParagraphRefs": [
         "11.03"
@@ -302,26 +301,24 @@
       "Answerable": true,
       "ExpectsToolCall": false,
       "Hit": true,
-      "Cited": true,
+      "Cited": false,
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "If a club only has six locally trained players available, the maximum number of players that can be registered on its List A is reduced to 23 players (25 total players minus the 2 missing locally trained player slots), as stated in Paragraph 31.08.",
+      "Answer": "\u0060\u0060\u0060json\n{\n  \u0022answer\u0022: \u0022If a club only has six locally trained players available, the maximum number of players that can be registered on List A is reduced accordingly. Specifically, the club would only be able to register 23 players on List A instead of the maximum of 25, as stated in paragraph 31.08.\u0022,\n  \u0022usedParagraphs\u0022: [\u002231.08\u0022]\n}\n\u0060\u0060\u0060",
       "RetrievedParagraphRefs": [
-        "31.08",
         "31.04",
-        "32.04",
+        "31.14",
         "31.05",
-        "55.03",
-        "32.02",
         "31.10",
-        "56.02",
-        "31.06",
-        "31.14"
+        "31.08",
+        "96.01-part2",
+        "32.04",
+        "96.01-part3",
+        "55.03",
+        "6.01"
       ],
-      "CitedParagraphRefs": [
-        "31.08"
-      ],
+      "CitedParagraphRefs": [],
       "Error": null
     },
     {
@@ -331,26 +328,24 @@
       "Answerable": true,
       "ExpectsToolCall": false,
       "Hit": true,
-      "Cited": true,
+      "Cited": false,
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "If two clubs finish the league phase with the same number of points, their ranking is decided by applying the following criteria in order: (aa) superior goal difference in the league phase; (bb) higher number of goals scored in the league phase; (cc) higher number of away goals scored in the league phase; (dd) higher number of wins in the league phase; (ee) higher number of away wins in the league phase; (ff) higher number of points obtained collectively by their league phase opponents; (gg) superior collective goal difference of their league phase opponents; (hh) higher number of goals scored collectively by their league phase opponents; (ii) lower disciplinary points total (3 points for a red card, 1 point for a yellow card, 3 points for expulsion via two yellow cards in one match); (jj) higher club coefficient as per Annex D.",
+      "Answer": "\u0060\u0060\u0060json\n{\n  \u0022answer\u0022: \u0022If two or more teams are equal on points on completion of the league phase matches, the ranking is determined based on the following tiebreaker criteria applied in this order: (aa) superior goal difference in the league phase; (bb) higher number of goals scored in the league phase; (cc) higher number of away goals scored in the league phase; (dd) higher number of wins in the league phase; (ee) higher number of away wins in the league phase; (ff) higher number of points obtained collectively by league phase opponents; (gg) superior collective goal difference of league phase opponents; (hh) higher number of goals scored collectively by league phase opponents; (ii) lower disciplinary points total based on yellow/red cards received; and (jj) higher club coefficient.\u0022,\n  \u0022usedParagraphs\u0022: [\u002218.01\u0022]\n}\n\u0060\u0060\u0060",
       "RetrievedParagraphRefs": [
         "18.01",
+        "3.08",
+        "29.03",
+        "96.01-part1",
         "19.01",
         "17.04",
+        "96.01-part2",
         "17.03",
-        "19.02",
-        "3.08",
-        "14.01",
-        "29.03",
-        "16.01",
-        "19.03"
+        "96.01-part5",
+        "19.02"
       ],
-      "CitedParagraphRefs": [
-        "18.01"
-      ],
+      "CitedParagraphRefs": [],
       "Error": null
     },
     {
@@ -364,18 +359,18 @@
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "Yes, a suspension resulting from a red card (sending off) in the last league phase match does carry into the knockout rounds. According to paragraph 63.01, a player sent off by the referee is automatically suspended for the next match in UEFA club competitions, which includes all stages of the competition, such as the knockout rounds.",
+      "Answer": "Yes, a player sent off in the last league phase match is suspended for the next match in the UEFA Champions League, which would include the first knockout round match. According to paragraph 63.01, a player sent off is automatically suspended for the next match in a UEFA club competition.",
       "RetrievedParagraphRefs": [
-        "63.01",
-        "63.03",
-        "63.04",
-        "28.02",
         "63.02",
-        "29.03",
-        "29.01",
-        "17.04",
-        "20.01",
-        "19.01"
+        "63.01",
+        "31.14",
+        "63.03",
+        "82.01",
+        "63.04",
+        "96.01-part1",
+        "28.02",
+        "96.01-part2",
+        "32.02"
       ],
       "CitedParagraphRefs": [
         "63.01"
@@ -393,18 +388,18 @@
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "Yes, a club can bring in a replacement goalkeeper if their first-choice goalkeeper is injured for at least 30 days. The replacement goalkeeper does not have to be locally trained, even if the injured goalkeeper was. This is permitted under Article 31.14(aa) of the UEFA Champions League regulations, provided that the club submits the necessary medical evidence and completes the official registration of List A with UEFA.",
+      "Answer": "Yes, a club can bring in a replacement goalkeeper if the first-choice goalkeeper is injured and the injury is considered long-term (lasting at least 30 days). The replacement goalkeeper does not have to be locally trained, even if the injured goalkeeper was. This is specified in Paragraph [31.14(aa)].",
       "RetrievedParagraphRefs": [
         "31.14",
-        "56.02",
-        "31.05",
-        "31.13",
-        "59.03",
         "31.06",
-        "31.04",
-        "27.04",
-        "79.07",
-        "49.04"
+        "56.02",
+        "31.10",
+        "31.05",
+        "79.01",
+        "31.13",
+        "79.02",
+        "59.03",
+        "96.01-part1"
       ],
       "CitedParagraphRefs": [
         "31.14"
@@ -422,18 +417,18 @@
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "An outfield player must be out for at least 60 days due to long-term injury or illness before they can be replaced. A goalkeeper, on the other hand, has a threshold of 30 days of long-term injury or illness to be considered for replacement. These thresholds are different for outfield players and goalkeepers.",
+      "Answer": "An outfield player must be out for at least 60 days due to long-term injury or illness before he can be replaced (Paragraph 31.14 cc). For a goalkeeper, the threshold is at least 30 days due to long-term injury or illness (Paragraph 31.14 aa). Therefore, the thresholds for replacement are not the same for outfield players and goalkeepers.",
       "RetrievedParagraphRefs": [
         "31.14",
         "56.02",
-        "60.01",
-        "59.03",
-        "56.01",
-        "21.02",
-        "60.02",
-        "27.04",
         "31.13",
-        "28.01"
+        "60.01",
+        "96.01-part2",
+        "59.03",
+        "41.02",
+        "56.01",
+        "55.02",
+        "21.02"
       ],
       "CitedParagraphRefs": [
         "31.14"
@@ -447,27 +442,24 @@
       "Answerable": true,
       "ExpectsToolCall": false,
       "Hit": true,
-      "Cited": true,
+      "Cited": false,
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "During all competition matches other than the final, the home team generally has to change its colours if the referee notices a colour clash, as stated in paragraph 40.02. However, for the final, if there is a colour clash, the team designated as the away team must wear alternative colours, as per paragraph 40.03.",
+      "Answer": "\u0060\u0060\u0060json\n{\n  \u0022answer\u0022: \u0022If two clubs arrive with clashing shirts, the general rule is that the home team must change their attire for practical reasons (paragraph 40.02). However, in the final, both teams may wear their first-choice playing attire unless there is a color clash. In such a case, the team designated as the away team must change their colors (paragraph 40.03).\u0022,\n  \u0022usedParagraphs\u0022: [\u002240.02\u0022, \u002240.03\u0022]\n}\n\u0060\u0060\u0060",
       "RetrievedParagraphRefs": [
         "40.03",
+        "96.01-part5",
         "40.02",
+        "96.01-part1",
         "42.02",
+        "96.01-part2",
         "27.06",
+        "96.01-part4",
         "42.06",
-        "39.02",
-        "42.05",
-        "40.01",
-        "24.02",
-        "27.07"
+        "3.08"
       ],
-      "CitedParagraphRefs": [
-        "40.02",
-        "40.03"
-      ],
+      "CitedParagraphRefs": [],
       "Error": null
     },
     {
@@ -476,23 +468,23 @@
       "GoldParagraph": "5.01, 5.02",
       "Answerable": true,
       "ExpectsToolCall": false,
-      "Hit": true,
+      "Hit": false,
       "Cited": false,
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "No, two clubs owned by the same investment group cannot both play in the UEFA Champions League. According to paragraph [5.01], a club cannot have direct or indirect involvement in the management, administration, or sporting performance of another club participating in a UEFA club competition. Additionally, paragraph [5.01](cc) specifies that no individual or legal entity may have control or influence over more than one club in the competition, where control includes holding majority voting rights or having decisive influence over the club\u0027s decisions.",
+      "Answer": "No, two clubs owned by the same investment group cannot both participate in the UEFA Champions League simultaneously. According to regulation [5.01], no individual or legal entity may have control or influence over more than one club participating in a UEFA club competition. Control or influence is defined as holding a majority of the shareholders\u2019 voting rights, appointing or removing a majority of administrative officers, having a controlling agreement with other shareholders, or exercising decisive influence over the club\u2019s decision-making.",
       "RetrievedParagraphRefs": [
         "24.02",
+        "96.01-part5",
         "5.01",
+        "96.01-part4",
         "4.05",
+        "96.01-part1",
         "25.08",
+        "96.01-part2",
         "5.04",
-        "5.02",
-        "71.02",
-        "17.02",
-        "76.01",
-        "42.02"
+        "32.02"
       ],
       "CitedParagraphRefs": [
         "5.01"
@@ -510,18 +502,18 @@
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "\u0060\u0060\u0060json\n{\n  \u0022answer\u0022: \u0022If a match is resumed the following day, the match restarts with the same players on the field and the same listed substitutes as at the moment the match was suspended. If a player is unable to restart the match, one of the previously listed substitutes may take their place, but this will count as a substitution. If all substitutions have already been used, no change can be made. Furthermore, a listed substitute who is unable to take their place on the bench cannot be replaced.\u0022,\n  \u0022usedParagraphs\u0022: [\u002228.01\u0022]\n}\n\u0060\u0060\u0060",
+      "Answer": "\u0060\u0060\u0060json\n{\n  \u0022answer\u0022: \u0022If a match is resumed the following day, the match must restart with the same players on the field and the same listed substitutes as at the moment the match was suspended. If a player is unable to restart the match, one of the previously listed substitutes may take their place, and this counts as a substitution for the team. However, a substitute who was listed but is unable to take their place on the bench cannot be replaced (paragraph [28.01](aa)).\u0022,\n  \u0022usedParagraphs\u0022: [\u002228.01\u0022]\n}\n\u0060\u0060\u0060",
       "RetrievedParagraphRefs": [
         "28.01",
-        "27.01",
         "28.02",
         "56.02",
-        "27.02",
-        "55.03",
         "56.01",
-        "13.01",
-        "27.07",
-        "49.04"
+        "96.01-part2",
+        "27.01",
+        "80.01",
+        "31.14",
+        "27.02",
+        "96.01-part5"
       ],
       "CitedParagraphRefs": [],
       "Error": null
@@ -537,18 +529,18 @@
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "No, a player\u0027s passport does not determine whether he counts toward the domestic development requirement. Instead, this is based on a player\u0027s training history with the club (\u0027club-trained player\u0027) or with clubs affiliated to the same association (\u0027association-trained player\u0027), as described in paragraphs 31.06 and 31.07.",
+      "Answer": "No, a player\u0027s passport does not determine whether he counts toward the domestic development requirement. Instead, the criteria for being a domestic (locally trained) player are based on the player\u0027s registration history between the ages of 15 and 21. Specifically, to qualify as a \u0027club-trained player,\u0027 the player must have been registered with the current club for at least three full seasons or 36 months during that period (Paragraph 31.06). Similarly, to qualify as an \u0027association-trained player,\u0027 the player must have been registered with clubs within the same association for at least three full seasons or 36 months during the same period (Paragraph 31.07). Nationality and passport are not factors in these definitions.",
       "RetrievedParagraphRefs": [
-        "30.03",
         "31.06",
+        "31.07",
+        "31.15",
+        "30.03",
+        "96.01-part5",
+        "96.01-part2",
         "32.02",
         "30.02",
         "31.10",
-        "31.07",
-        "31.12",
-        "31.15",
-        "31.08",
-        "32.04"
+        "80.01"
       ],
       "CitedParagraphRefs": [
         "31.06",
@@ -563,26 +555,24 @@
       "Answerable": true,
       "ExpectsToolCall": false,
       "Hit": true,
-      "Cited": true,
+      "Cited": false,
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "No, a player cannot serve a suspension while being unregistered. Only players who are duly registered with UEFA on List A or List B can validly serve pending suspensions, as per paragraph 31.02.",
+      "Answer": "\u0060\u0060\u0060json\n{\n  \u0022answer\u0022: \u0022No, only players who are duly registered with UEFA by means of List A or B can validly serve pending suspensions.\u0022,\n  \u0022usedParagraphs\u0022: [\u002231.02\u0022]\n}\n\u0060\u0060\u0060",
       "RetrievedParagraphRefs": [
-        "31.02",
-        "31.03",
-        "32.04",
-        "31.08",
-        "31.12",
-        "31.10",
         "31.14",
+        "32.04",
+        "31.10",
+        "28.01",
         "32.02",
-        "31.11",
-        "28.01"
+        "31.02",
+        "96.01-part2",
+        "31.03",
+        "31.01",
+        "31.08"
       ],
-      "CitedParagraphRefs": [
-        "31.02"
-      ],
+      "CitedParagraphRefs": [],
       "Error": null
     },
     {
@@ -596,21 +586,20 @@
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "Yes, after a defeat, the head coach is personally required to speak to broadcasters during post-match interviews as per paragraph [80.01(ee)]. Additionally, the head coach must attend the post-match press conference, which must start no later than 20 minutes after the final whistle, as per paragraph [80.02].",
+      "Answer": "Yes, the head coach is personally required to speak to broadcasters after a defeat. The post-match press conference must start no later than 20 minutes after the final whistle (paragraph 80.02).",
       "RetrievedParagraphRefs": [
-        "80.02",
         "79.04",
-        "83.06",
+        "80.02",
         "80.01",
-        "83.04",
-        "87.03",
         "79.07",
-        "83.05",
-        "89.03",
-        "79.05"
+        "96.01-part2",
+        "83.06",
+        "96.01-part3",
+        "83.04",
+        "83.01",
+        "87.03"
       ],
       "CitedParagraphRefs": [
-        "80.01",
         "80.02"
       ],
       "Error": null
@@ -622,25 +611,24 @@
       "Answerable": true,
       "ExpectsToolCall": false,
       "Hit": true,
-      "Cited": true,
+      "Cited": false,
       "Abstained": false,
       "UsedTool": false,
       "ToolCallCorrect": null,
-      "Answer": "No, a club cannot choose which ball is used for its home fixtures in the UEFA Champions League. Regulations specify that for the qualifying phase, the match balls must comply with the IFAB Laws of the Game and the UEFA Equipment Regulations (paragraph 50.01). For matches from the play-offs onwards, the official UEFA Champions League match ball determined by the UEFA administration must be used (paragraph 50.02).",
+      "Answer": "No, a club cannot choose which ball is used for its home fixtures. According to paragraph 50.02 of the UEFA Champions League regulations, the official UEFA Champions League match ball, as determined by the UEFA administration, must be used for all matches from the play-offs onwards, as well as for the official training sessions before these matches.",
       "RetrievedParagraphRefs": [
         "50.01",
+        "96.01-part5",
         "50.02",
         "27.06",
+        "96.01-part3",
         "45.03",
+        "2.02",
         "26.01",
-        "7.05",
-        "17.02",
-        "25.07",
-        "42.05",
-        "24.02"
+        "10.01",
+        "7.05"
       ],
       "CitedParagraphRefs": [
-        "50.01",
         "50.02"
       ],
       "Error": null
@@ -656,22 +644,22 @@
       "Abstained": false,
       "UsedTool": true,
       "ToolCallCorrect": true,
-      "Answer": "Liverpool\u0027s registered squad does satisfy the locally trained player requirement. According to Article 31.04, a minimum of eight places on List A must be reserved exclusively for locally trained players. Liverpool\u0027s squad has three club-trained players and two association-trained players, totaling five locally trained players. Since Liverpool has registered a total of 20 players on List A, this is permissible under Article 31.08, which allows for a reduction in the maximum squad size when fewer than eight locally trained players are included.",
+      "Answer": "Liverpool\u0027s registered squad does not satisfy the locally trained player requirement outlined in UEFA Champions League regulations. Per regulation 31.04, a minimum of eight players on List A must be designated as \u0027locally trained,\u0027 and no club may have more than four \u0027association-trained\u0027 players in these eight slots. Liverpool\u0027s squad includes only five locally trained players (three club-trained and two association-trained), which is below the required minimum of eight.",
       "RetrievedParagraphRefs": [
-        "31.05",
         "31.08",
+        "31.05",
         "31.04",
-        "30.02",
-        "31.06",
-        "32.04",
         "31.10",
-        "31.01",
+        "32.04",
         "31.14",
-        "31.12"
+        "31.06",
+        "30.02",
+        "6.01",
+        "31.01"
       ],
       "CitedParagraphRefs": [
         "31.04",
-        "31.08"
+        "31.05"
       ],
       "Error": null
     },
@@ -686,18 +674,18 @@
       "Abstained": false,
       "UsedTool": true,
       "ToolCallCorrect": true,
-      "Answer": "Manchester United currently have 3 club-trained players. Regulation 31.04 mandates that 8 places on List A must be reserved for locally trained players, including a maximum of 4 association-trained players. Since Manchester United have only 3 club-trained players, they are 5 short of the required number of 8 locally trained players. As per regulation 31.08, for each missing locally trained player, the total number of players they can register on List A is reduced accordingly. Thus, Manchester United can register a maximum of 20 players (25 - 5 = 20) on their List A as things stand.",
+      "Answer": "Manchester United currently have 3 club-trained players in their squad. According to paragraph 31.08, if a club has fewer than eight locally trained players on List A (a combination of club-trained and association-trained players), the maximum number of players that can be registered on List A is reduced accordingly. Manchester United have 8 locally trained players (3 club-trained and 5 association-trained). Therefore, they can register the full 25 players on List A despite being short on club-trained players, as the total number of locally trained players meets the requirement.",
       "RetrievedParagraphRefs": [
-        "31.08",
         "31.04",
+        "31.08",
+        "32.04",
+        "31.10",
+        "31.12",
+        "31.14",
+        "96.01-part2",
         "31.01",
         "31.13",
-        "32.04",
-        "31.11",
-        "31.10",
-        "31.02",
-        "31.12",
-        "31.03"
+        "31.11"
       ],
       "CitedParagraphRefs": [
         "31.04",
@@ -716,18 +704,18 @@
       "Abstained": false,
       "UsedTool": true,
       "ToolCallCorrect": true,
-      "Answer": "Real Madrid are compliant with the UEFA Champions League regulations for the registration of goalkeepers. They have registered two goalkeepers on their List A (Thibaut Courtois and Andriy Lunin), meeting the requirement stated in paragraph 31.13, which mandates having at least two goalkeepers on List A and at least three in total (List A and List B combined).",
+      "Answer": "Yes, Real Madrid are compliant regarding their goalkeepers as they have registered two goalkeepers on their squad list, as required by the regulation in paragraph 31.13.",
       "RetrievedParagraphRefs": [
-        "31.13",
         "31.14",
-        "31.01",
         "56.02",
+        "31.13",
+        "31.01",
+        "41.02",
+        "96.01-part5",
         "4.01",
+        "32.02",
         "30.03",
-        "30.01",
-        "30.02",
-        "6.01",
-        "41.01"
+        "52.01"
       ],
       "CitedParagraphRefs": [
         "31.13"
@@ -748,15 +736,15 @@
       "Answer": "This question cannot be answered based on the UEFA Champions League regulations provided.",
       "RetrievedParagraphRefs": [
         "67.04",
+        "96.01-part4",
         "68.03",
+        "96.01-part5",
         "67.03",
+        "96.01-part3",
         "67.05",
+        "31.14",
         "67.02",
-        "45.01",
-        "67.01",
-        "65.02",
-        "66.01",
-        "70.05"
+        "96.01-part2"
       ],
       "CitedParagraphRefs": [],
       "Error": null
@@ -774,16 +762,16 @@
       "ToolCallCorrect": null,
       "Answer": "This question cannot be answered based on the UEFA Champions League regulations provided.",
       "RetrievedParagraphRefs": [
+        "32.02",
         "31.08",
+        "31.14",
         "31.10",
+        "96.01-part5",
         "31.06",
+        "96.01-part2",
         "31.11",
         "32.04",
-        "32.01",
-        "32.02",
-        "31.12",
-        "31.04",
-        "31.13"
+        "30.05"
       ],
       "CitedParagraphRefs": [],
       "Error": null
@@ -801,16 +789,16 @@
       "ToolCallCorrect": null,
       "Answer": "This question cannot be answered based on the UEFA Champions League regulations provided.",
       "RetrievedParagraphRefs": [
-        "63.01",
-        "63.02",
         "28.02",
+        "56.02",
+        "63.01",
+        "18.01",
+        "63.02",
+        "53.03",
+        "80.01",
         "4.02",
-        "63.03",
-        "55.03",
-        "8.01",
-        "32.02",
-        "29.01",
-        "56.02"
+        "96.01-part2",
+        "63.03"
       ],
       "CitedParagraphRefs": [],
       "Error": null
@@ -828,16 +816,16 @@
       "ToolCallCorrect": null,
       "Answer": "This question cannot be answered based on the UEFA Champions League regulations provided.",
       "RetrievedParagraphRefs": [
-        "70.05",
-        "31.09",
-        "32.01",
-        "63.05",
-        "25.06",
-        "25.04",
-        "31.11",
         "31.06",
-        "42.06",
-        "83.01"
+        "70.05",
+        "96.01-part3",
+        "31.09",
+        "51.02",
+        "32.01",
+        "31.07",
+        "63.05",
+        "96.01-part4",
+        "25.06"
       ],
       "CitedParagraphRefs": [],
       "Error": null
@@ -856,15 +844,15 @@
       "Answer": "This question cannot be answered based on the UEFA Champions League regulations provided.",
       "RetrievedParagraphRefs": [
         "84.05",
-        "49.06",
-        "7.03",
-        "57.03",
         "86.10",
-        "57.01",
-        "86.18",
         "86.08",
-        "49.04",
-        "36.02"
+        "96.01-part2",
+        "49.06",
+        "80.01",
+        "7.03",
+        "96.01-part4",
+        "57.03",
+        "47.02"
       ],
       "CitedParagraphRefs": [],
       "Error": null
