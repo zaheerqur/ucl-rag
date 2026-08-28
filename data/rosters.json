@@ -1,0 +1,108 @@
+{
+  "clubs": [
+    {
+      "name": "Liverpool",
+      "note": "Non-compliant: only 5 locally-trained (3 club + 2 association). Minimum is 8.",
+      "players": [
+        { "name": "Alisson Becker",       "position": "GK",  "training": "neither" },
+        { "name": "Caoimhin Kelleher",    "position": "GK",  "training": "neither" },
+        { "name": "Virgil van Dijk",      "position": "DEF", "training": "neither" },
+        { "name": "Ibrahima Konate",      "position": "DEF", "training": "neither" },
+        { "name": "Andrew Robertson",     "position": "DEF", "training": "association" },
+        { "name": "Joe Gomez",            "position": "DEF", "training": "association" },
+        { "name": "Conor Bradley",        "position": "DEF", "training": "club" },
+        { "name": "Trent Alexander-Arnold","position": "DEF", "training": "club" },
+        { "name": "Ryan Gravenberch",     "position": "MID", "training": "neither" },
+        { "name": "Alexis Mac Allister",  "position": "MID", "training": "neither" },
+        { "name": "Dominik Szoboszlai",   "position": "MID", "training": "neither" },
+        { "name": "Wataru Endo",          "position": "MID", "training": "neither" },
+        { "name": "Harvey Elliott",       "position": "MID", "training": "club" },
+        { "name": "Mohamed Salah",        "position": "FWD", "training": "neither" },
+        { "name": "Luis Diaz",            "position": "FWD", "training": "neither" },
+        { "name": "Darwin Nunez",         "position": "FWD", "training": "neither" },
+        { "name": "Diogo Jota",           "position": "FWD", "training": "neither" },
+        { "name": "Cody Gakpo",           "position": "FWD", "training": "neither" },
+        { "name": "Federico Chiesa",      "position": "FWD", "training": "neither" },
+        { "name": "Ben Doak",             "position": "FWD", "training": "neither" }
+      ]
+    },
+    {
+      "name": "Manchester United",
+      "note": "Short on club-trained: only 3 club-trained but minimum required within the 8 locally-trained places is 4. Also has 5 association-trained which exceeds the cap of 4.",
+      "players": [
+        { "name": "Andre Onana",          "position": "GK",  "training": "neither" },
+        { "name": "Altay Bayindir",       "position": "GK",  "training": "neither" },
+        { "name": "Harry Maguire",        "position": "DEF", "training": "neither" },
+        { "name": "Raphael Varane",       "position": "DEF", "training": "neither" },
+        { "name": "Luke Shaw",            "position": "DEF", "training": "association" },
+        { "name": "Aaron Wan-Bissaka",    "position": "DEF", "training": "association" },
+        { "name": "Jonny Evans",          "position": "DEF", "training": "association" },
+        { "name": "Kobbie Mainoo",        "position": "MID", "training": "club" },
+        { "name": "Toby Collyer",         "position": "MID", "training": "club" },
+        { "name": "Marcus Rashford",      "position": "FWD", "training": "club" },
+        { "name": "Bruno Fernandes",      "position": "MID", "training": "neither" },
+        { "name": "Casemiro",             "position": "MID", "training": "neither" },
+        { "name": "Scott McTominay",      "position": "MID", "training": "association" },
+        { "name": "Mason Mount",          "position": "MID", "training": "association" },
+        { "name": "Rasmus Hojlund",       "position": "FWD", "training": "neither" },
+        { "name": "Marcus McGuane",       "position": "MID", "training": "neither" },
+        { "name": "Antony",               "position": "FWD", "training": "neither" },
+        { "name": "Alejandro Garnacho",   "position": "FWD", "training": "neither" },
+        { "name": "Facundo Pellistri",    "position": "FWD", "training": "neither" },
+        { "name": "Victor Lindelof",      "position": "DEF", "training": "neither" }
+      ]
+    },
+    {
+      "name": "Real Madrid",
+      "note": "Compliant: 5 club-trained + 3 association-trained = 8 locally-trained.",
+      "players": [
+        { "name": "Thibaut Courtois",     "position": "GK",  "training": "neither" },
+        { "name": "Andriy Lunin",         "position": "GK",  "training": "neither" },
+        { "name": "David Alaba",          "position": "DEF", "training": "neither" },
+        { "name": "Antonio Rudiger",      "position": "DEF", "training": "neither" },
+        { "name": "Dani Carvajal",        "position": "DEF", "training": "club" },
+        { "name": "Ferland Mendy",        "position": "DEF", "training": "neither" },
+        { "name": "Eduardo Camavinga",    "position": "MID", "training": "neither" },
+        { "name": "Aurelien Tchouameni", "position": "MID", "training": "neither" },
+        { "name": "Federico Valverde",    "position": "MID", "training": "neither" },
+        { "name": "Luka Modric",          "position": "MID", "training": "neither" },
+        { "name": "Toni Kroos",           "position": "MID", "training": "neither" },
+        { "name": "Arda Guler",           "position": "MID", "training": "club" },
+        { "name": "Brahim Diaz",         "position": "MID", "training": "club" },
+        { "name": "Vinicius Junior",      "position": "FWD", "training": "neither" },
+        { "name": "Rodrygo Goes",         "position": "FWD", "training": "neither" },
+        { "name": "Joselu",               "position": "FWD", "training": "club" },
+        { "name": "Alvaro Odriozola",     "position": "DEF", "training": "club" },
+        { "name": "Jesus Vallejo",        "position": "DEF", "training": "association" },
+        { "name": "Cesar Camino",         "position": "MID", "training": "association" },
+        { "name": "Mario Martin",         "position": "MID", "training": "association" }
+      ]
+    },
+    {
+      "name": "Bayern Munich",
+      "note": "Compliant: 4 club-trained + 4 association-trained = 8 locally-trained.",
+      "players": [
+        { "name": "Manuel Neuer",         "position": "GK",  "training": "club" },
+        { "name": "Sven Ulreich",         "position": "GK",  "training": "club" },
+        { "name": "Dayot Upamecano",      "position": "DEF", "training": "neither" },
+        { "name": "Min-jae Kim",          "position": "DEF", "training": "neither" },
+        { "name": "Alphonso Davies",      "position": "DEF", "training": "neither" },
+        { "name": "Josip Stanisic",       "position": "DEF", "training": "club" },
+        { "name": "Joshua Kimmich",       "position": "MID", "training": "neither" },
+        { "name": "Leon Goretzka",        "position": "MID", "training": "neither" },
+        { "name": "Thomas Muller",        "position": "MID", "training": "club" },
+        { "name": "Jamal Musiala",        "position": "MID", "training": "club" },
+        { "name": "Leroy Sane",           "position": "FWD", "training": "neither" },
+        { "name": "Serge Gnabry",         "position": "FWD", "training": "association" },
+        { "name": "Harry Kane",           "position": "FWD", "training": "neither" },
+        { "name": "Eric Maxim Choupo-Moting", "position": "FWD", "training": "neither" },
+        { "name": "Kingsley Coman",       "position": "FWD", "training": "neither" },
+        { "name": "Raphael Guerreiro",    "position": "DEF", "training": "neither" },
+        { "name": "Aleksandar Pavlovic",  "position": "MID", "training": "association" },
+        { "name": "Paul Wanner",          "position": "MID", "training": "association" },
+        { "name": "Frans Kruger",         "position": "MID", "training": "association" },
+        { "name": "Noussair Mazraoui",    "position": "DEF", "training": "neither" }
+      ]
+    }
+  ]
+}

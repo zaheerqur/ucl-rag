@@ -1,6 +1,7 @@
 using Api.Generation;
 using Api.Models;
 using Api.Retrieval;
+using Api.Tools;
 using Azure;
 using Azure.AI.OpenAI;
 using Npgsql;
@@ -29,6 +30,10 @@ string retrievalMode = builder.Configuration["Retrieval:Mode"] ?? "hybrid";
 int topK = int.Parse(builder.Configuration["Retrieval:TopK"] ?? "10");
 int rrfK = int.Parse(builder.Configuration["Retrieval:RrfK"] ?? "60");
 
+// Roster data path: walk up from binary until we find data/rosters.json
+string rostersPath = FindFile("data/rosters.json")
+    ?? throw new InvalidOperationException("Cannot locate data/rosters.json");
+
 // --- Services ---
 var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
 dataSourceBuilder.UseVector();
@@ -39,7 +44,8 @@ var embeddingClient = azureClient.GetEmbeddingClient(embeddingDeployment);
 var chatClient = azureClient.GetChatClient(chatDeployment);
 
 var retrieval = new RetrievalService(dataSource, embeddingClient, rrfK);
-IGenerationService generation = new AzureChatService(chatClient);
+var rosterService = new RosterService(rostersPath);
+IGenerationService generation = new AgentChatService(chatClient, rosterService);
 
 // --- Endpoints ---
 var app = builder.Build();
@@ -76,8 +82,21 @@ app.MapPost("/ask", async (AskRequest request, CancellationToken ct) =>
     return Results.Ok(new AskResponse(
         Answer: generated.Answer,
         Citations: citations,
-        UsedTool: false,
+        UsedTool: generated.UsedTool,
         RetrievalMode: retrievalMode));
 });
 
 app.Run();
+
+static string? FindFile(string relativePath)
+{
+    var dir = new DirectoryInfo(AppContext.BaseDirectory);
+    while (dir != null)
+    {
+        string candidate = Path.Combine(dir.FullName, relativePath);
+        if (File.Exists(candidate))
+            return candidate;
+        dir = dir.Parent;
+    }
+    return null;
+}
