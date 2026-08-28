@@ -1,0 +1,28 @@
+# Build outputs
+bin/
+obj/
+out/
+
+# .NET user secrets (stored in ~/.microsoft/usersecrets, not in repo)
+# but exclude any local secret files just in case
+secrets.json
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+*.DotSettings.user
+
+# OS
+.DS_Store
+Thumbs.db
+
+# NuGet
+*.nupkg
+.nuget/
+
+# Test results
+TestResults/
+
+# Eval results are committed, so /eval/results is tracked
