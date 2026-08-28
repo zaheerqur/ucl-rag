@@ -27,3 +27,4 @@ TestResults/
 
 # Eval results are committed, so /eval/results is tracked
 node_modules/
+web/dist/
