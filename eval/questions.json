@@ -1,0 +1,326 @@
+{
+  "_readme": {
+    "document": "Regulations of the UEFA Champions League, 2025/26 season (2024-27 cycle). Enforcement date 11 September 2025.",
+    "get_the_pdf": "Reader: https://documents.uefa.com/r/Regulations-of-the-UEFA-Champions-League-2025/26-Online — use its PDF download. A mirrored English PDF also exists at https://hns.family/files/documents/32483/ (Croatian FA) if the UEFA download gives you trouble.",
+    "why_2025_26": "Pinned deliberately. Every paragraph reference below was read from this edition's text. Pinning the corpus keeps the gold set valid; a set tied to 'current' silently rots when UEFA renumbers.",
+    "verification": "All 25 answerable questions carry paragraph-level gold read directly from the source PDF, and all 5 unanswerable items are confirmed absent from the document. Nothing left to fill in.",
+    "coverage_gap": "Chapters XIII (commercial rights, Articles 69-77) and XIV (media, Articles 78-89) are the longest in the document and are not represented in this set. Your index will contain a large body of text no question ever probes. Worth naming in the write-up — and worth adding a question or two later if you want coverage.",
+    "paragraph_spread": "Gold spans 22 distinct paragraphs across 14 articles. Keep it that way if you add questions — two questions on one paragraph means one is redundant.",
+    "keep_away_from_claude_code": "Build the eval runner against a 2-3 question dummy file, then drop this file in afterwards.",
+    "corpus_checksum": "Confirm you have the right file: title 'Regulations of the UEFA Champions League', 2024-27 Cycle, 2025/26 Season. Paragraph 31.04 states no club may have more than 25 players on List A. Paragraph 31.12 gives the List B birth cutoff as 1 January 2004. Paragraph 11.03 awards 50 gold medals. If those three match, every gold reference lines up."
+  },
+  "answerable": [
+    {
+      "id": "a01",
+      "category": "direct",
+      "topic": "List A size limit",
+      "verified": true,
+      "question": "How many players can a club put on its main squad list?",
+      "goldArticle": "31",
+      "goldParagraph": "31.04",
+      "goldAnswer": "Maximum 25 on List A."
+    },
+    {
+      "id": "a02",
+      "category": "direct",
+      "topic": "locally trained quota",
+      "verified": true,
+      "question": "How many places in the main squad list are reserved for locally trained players, and how many of those can be association-trained?",
+      "goldArticle": "31",
+      "goldParagraph": "31.04",
+      "goldAnswer": "At least eight reserved; no more than four of those may be association-trained.",
+      "note": "Two-part answer. Checks the model returns the whole rule, not half of it."
+    },
+    {
+      "id": "a03",
+      "category": "direct",
+      "topic": "exceeding List A mid-qualifying",
+      "verified": true,
+      "question": "A club registers a new player during the qualifying phase and that takes List A to 26 names. What must it do?",
+      "goldArticle": "31",
+      "goldParagraph": "31.10",
+      "goldAnswer": "Remove a previously registered player to bring List A back to 25."
+    },
+    {
+      "id": "a04",
+      "category": "direct",
+      "topic": "goalkeeper minimum",
+      "verified": true,
+      "question": "What is the minimum number of goalkeepers a club must register?",
+      "goldArticle": "31",
+      "goldParagraph": "31.13",
+      "goldAnswer": "At least two on List A, at least three across List A and List B combined."
+    },
+    {
+      "id": "a05",
+      "category": "direct",
+      "topic": "List B eligibility",
+      "verified": true,
+      "question": "What are the age and tenure conditions for putting a young player on List B?",
+      "goldArticle": "31",
+      "goldParagraph": "31.12",
+      "goldAnswer": "Born on or after 1 January 2004, and since his 15th birthday eligible for the club for an uninterrupted two years or three consecutive years, with at most one loan of up to a year to a club in the same association. Players aged 16 qualify with two uninterrupted years at the club."
+    },
+    {
+      "id": "a06",
+      "category": "direct",
+      "topic": "subsequent registration",
+      "verified": true,
+      "question": "Can a club add new players to its squad after the league phase ends?",
+      "goldArticle": "32",
+      "goldParagraph": "32.01",
+      "goldAnswer": "Yes, a maximum of three new eligible players, by 5 February 2026.",
+      "note": "32.02 adds exceptions for calendar-year championships (up to four or five). A thorough answer reaches it; a shallow one stops at three."
+    },
+    {
+      "id": "a07",
+      "category": "direct",
+      "topic": "substitutions",
+      "verified": true,
+      "question": "How many substitutions is a team allowed during a match?",
+      "goldArticle": "56",
+      "goldParagraph": "56.01",
+      "goldAnswer": "Up to five substitutes, plus a sixth in knockout extra time, using a maximum of three stoppages in play (one extra in extra time)."
+    },
+    {
+      "id": "a08",
+      "category": "direct",
+      "topic": "extra time and shoot-outs",
+      "verified": true,
+      "question": "What happens if a knockout tie is level after both legs?",
+      "goldArticle": "21",
+      "goldParagraph": "21.01",
+      "goldAnswer": "Two 15-minute periods of extra time, then a penalty shoot-out if still level."
+    },
+    {
+      "id": "a09",
+      "category": "direct",
+      "topic": "visiting team tickets",
+      "verified": true,
+      "question": "What share of stadium capacity has to be made available to visiting supporters, and is there a price limit?",
+      "goldArticle": "45",
+      "goldParagraph": "45.01",
+      "goldAnswer": "At least 5% of UEFA spectator capacity, priced no higher than comparable home-supporter adult tickets and capped at €50."
+    },
+    {
+      "id": "a10",
+      "category": "direct",
+      "topic": "trophy and medals",
+      "verified": true,
+      "question": "How many medals do the winning and losing finalists receive?",
+      "goldArticle": "11",
+      "goldParagraph": "11.03",
+      "goldAnswer": "50 gold to the winners, 50 silver to the runners-up."
+    },
+    {
+      "id": "a11",
+      "category": "synthesis",
+      "topic": "quota shortfall consequence",
+      "verified": true,
+      "question": "If a club only has six locally trained players available, what happens to the size of its squad?",
+      "goldArticle": "31",
+      "goldParagraph": "31.08",
+      "goldAnswer": "The maximum registrable on List A is reduced accordingly.",
+      "note": "A model may retrieve 31.04 and recite the quota instead of the consequence. Good near-miss."
+    },
+    {
+      "id": "a12",
+      "category": "synthesis",
+      "topic": "equality of points",
+      "verified": true,
+      "question": "Two clubs finish the league phase on the same number of points. How is the higher position decided?",
+      "goldArticle": "18",
+      "goldParagraph": "18.01",
+      "goldAnswer": "Ten criteria applied in order, starting with goal difference and ending with club coefficient.",
+      "note": "A single paragraph containing a ten-item ordered list. If your chunker splits it, the model will return a partial ordering that looks plausible and is wrong. Best structural test in the set."
+    },
+    {
+      "id": "a13",
+      "category": "synthesis",
+      "topic": "card suspensions",
+      "verified": true,
+      "question": "A player is sent off in the last league phase match. Does that suspension carry into the knockout rounds?",
+      "goldArticle": "63",
+      "goldParagraph": "63.01, 63.03",
+      "goldAnswer": "Yes. A sending-off brings an automatic suspension for the next match, and pending suspensions carry forward to the next round, subject to the exceptions in 63.04.",
+      "note": "Paragraph numbers cross-read from the parallel Europa League Article 63, which explicitly cites 63.04. Spot-check against the CL text — this is the least directly verified of the 24."
+    },
+    {
+      "id": "a14",
+      "category": "synthesis",
+      "topic": "goalkeeper long-term injury",
+      "verified": true,
+      "question": "A club's first-choice goalkeeper is injured for two months. Can they bring in a replacement, and does the replacement have to be locally trained?",
+      "goldArticle": "31",
+      "goldParagraph": "31.14(a)",
+      "goldAnswer": "Yes, if the injury lasts at least 30 days. The replacement does not have to be locally trained even if the replaced goalkeeper was.",
+      "note": "The 'does not have to be locally trained' clause sits deep in a long paragraph and is easy to drop."
+    },
+    {
+      "id": "a15",
+      "category": "synthesis",
+      "topic": "outfield vs goalkeeper injury threshold",
+      "verified": true,
+      "question": "How long must an outfield player be out before he can be replaced, and is that the same threshold as for a goalkeeper?",
+      "goldArticle": "31",
+      "goldParagraph": "31.14(c)",
+      "goldAnswer": "60 days for an outfield player versus 30 for a goalkeeper. Outfield replacement is also limited to one player, up to matchday 6.",
+      "note": "Deliberate distractor pair with a14 — both live in 31.14, so the model must pick the right sub-paragraph, not the right article. Strongest chunk-granularity test here."
+    },
+    {
+      "id": "a16",
+      "category": "synthesis",
+      "topic": "kit colour clash",
+      "verified": true,
+      "question": "Two clubs turn up with clashing shirts. Who has to change — and is the answer different in the final?",
+      "goldArticle": "40",
+      "goldParagraph": "40.02, 40.03",
+      "goldAnswer": "As a rule the home team changes, decided by the referee with the match delegate and UEFA administration. In the final the rule reverses: the designated away team wears alternative colours.",
+      "note": "40.03 contradicts 40.02 for one specific fixture. A model that retrieves a single chunk will state the general rule confidently and be wrong about the final. The best hallucination trap in the set — and it is a real rule, not a contrived one."
+    },
+    {
+      "id": "a17",
+      "category": "synthesis",
+      "topic": "multi-club ownership",
+      "verified": true,
+      "question": "Can two clubs owned by the same investment group both play in this competition?",
+      "goldArticle": "5",
+      "goldParagraph": "5.01, 5.02",
+      "goldAnswer": "No, where one entity has control or decisive influence over both. If two clubs fail the criteria only one is admitted, chosen by competition prestige, then domestic ranking, then association access-list position.",
+      "note": "Conditional answer with a tie-break order, spanning two paragraphs."
+    },
+    {
+      "id": "a18",
+      "category": "synthesis",
+      "topic": "suspended match completion",
+      "verified": true,
+      "question": "A match is abandoned at half-time and resumed the following day. Which players can take the field?",
+      "goldArticle": "28",
+      "goldParagraph": "28.01(a), 28.02",
+      "goldAnswer": "The same players and listed substitutes as at suspension. A player unable to restart may be replaced by a listed substitute, counting as a substitution. Sanctions already imposed stand and sendings-off cannot be replaced.",
+      "note": "28.01(b) covers resumption at a later date with different rules — a natural distractor sitting in the same article."
+    },
+    {
+      "id": "a19",
+      "category": "paraphrase",
+      "topic": "locally trained definition",
+      "verified": true,
+      "question": "Does a player's passport determine whether he counts toward the domestic development requirement?",
+      "goldArticle": "31",
+      "goldParagraph": "31.06, 31.07",
+      "goldAnswer": "No. Both definitions apply irrespective of nationality; what matters is registration history between 15 and 21.",
+      "note": "Avoids 'homegrown', 'locally trained', 'nationality'. The answering phrase is buried mid-paragraph in a wall of text, which is exactly why keyword search should miss it. One of four questions the hybrid-vs-vector experiment turns on."
+    },
+    {
+      "id": "a20",
+      "category": "paraphrase",
+      "topic": "serving a suspension",
+      "verified": true,
+      "question": "A player left off both squad lists picks up a ban. Can he sit it out while unregistered?",
+      "goldArticle": "31",
+      "goldParagraph": "31.02",
+      "goldAnswer": "No. Only players registered via List A or B can validly serve pending suspensions.",
+      "note": "A one-sentence paragraph. Short chunks are easy to lose in a large index."
+    },
+    {
+      "id": "a21",
+      "category": "paraphrase",
+      "topic": "matchday media activities",
+      "verified": true,
+      "question": "After a defeat, is the head coach personally required to speak to broadcasters, and how quickly must the press conference start?",
+      "goldArticle": "80",
+      "goldParagraph": "80.01(d), 80.02",
+      "goldAnswer": "Not personally for the flash interview — 80.01(d) requires the head coach OR a key player for at least one post-match super-flash interview. But 80.02 requires both clubs to make their head coach available at the post-match press conference, which must start no later than 20 minutes after the final whistle.",
+      "note": "Two-part answer split across two paragraphs that pull in opposite directions: one says the coach is substitutable, the other does not. Retrieving only 80.01(d) yields a confident 'no'; retrieving only 80.02 yields a confident 'yes'. Near-misses to watch for: 79.01 (pre-match press conference) and 6.01(j) (player of the match available for interview)."
+    },
+    {
+      "id": "a22",
+      "category": "paraphrase",
+      "topic": "match equipment",
+      "verified": true,
+      "question": "Can a club choose which ball is used for its home fixtures?",
+      "goldArticle": "50",
+      "goldParagraph": "50.01, 50.02",
+      "goldAnswer": "Only in the qualifying phase, where the home club provides balls meeting IFAB and UEFA Equipment Regulations. From the play-offs onwards the official UEFA match ball is mandatory.",
+      "note": "Answer is conditional on competition stage. A model retrieving only 50.02 will say a flat no and miss the qualifying-phase case."
+    },
+    {
+      "id": "a23",
+      "category": "tool",
+      "topic": "quota + roster data",
+      "verified": true,
+      "question": "Does Liverpool's registered squad satisfy the locally trained player requirement?",
+      "goldArticle": "31",
+      "goldParagraph": "31.04",
+      "goldAnswer": null,
+      "expectsToolCall": true,
+      "note": "Needs 31.04 AND GetSquad. Assert usedTool == true."
+    },
+    {
+      "id": "a24",
+      "category": "tool",
+      "topic": "shortfall consequence + roster data",
+      "verified": true,
+      "question": "Manchester United are short on club-trained players. How many can they actually register on List A as things stand?",
+      "goldArticle": "31",
+      "goldParagraph": "31.08",
+      "goldAnswer": null,
+      "expectsToolCall": true,
+      "note": "Needs 31.08, the reduction rule, applied to a real count. Hardest of the three: reciting the quota is not an answer."
+    },
+    {
+      "id": "a25",
+      "category": "tool",
+      "topic": "goalkeeper minimum + roster data",
+      "verified": true,
+      "question": "Real Madrid have registered the goalkeepers shown in their squad. Are they compliant on that front?",
+      "goldArticle": "31",
+      "goldParagraph": "31.13",
+      "goldAnswer": null,
+      "expectsToolCall": true,
+      "note": "Simplest tool case. Also checks the agent does not over-retrieve."
+    }
+  ],
+  "unanswerable": [
+    {
+      "id": "u01",
+      "topic": "financial sustainability",
+      "question": "What is the maximum proportion of revenue a club may spend on wages and transfer fees?",
+      "expectedBehaviour": "refuse",
+      "verified": true,
+      "note": "CONFIRMED safe. Articles 65-68 cover match revenue and distribution, not spending limits. 4.01(c) and 6.01(g) only cross-reference the Club Licensing and Financial Sustainability Regulations."
+    },
+    {
+      "id": "u02",
+      "topic": "Premier League rules",
+      "question": "How many non-homegrown players can a club register in the Premier League?",
+      "expectedBehaviour": "refuse",
+      "verified": true,
+      "note": "Different governing body. Sharpest item here — topically adjacent to a02, so a model that pattern-matches on 'homegrown' will answer confidently with UEFA's numbers."
+    },
+    {
+      "id": "u03",
+      "topic": "disciplinary tariffs",
+      "question": "How many matches is a player banned for after spitting at an opponent?",
+      "expectedBehaviour": "refuse",
+      "verified": true,
+      "note": "CONFIRMED safe. Article 63 covers card-based suspensions only; 63.01 defers serious offences to the UEFA Control, Ethics and Disciplinary Body. No offence tariff table in this document."
+    },
+    {
+      "id": "u04",
+      "topic": "transfer window dates",
+      "question": "When does the summer transfer window close in Spain?",
+      "expectedBehaviour": "refuse",
+      "verified": true,
+      "note": "National association matter. Nothing in the document covers it."
+    },
+    {
+      "id": "u05",
+      "topic": "invented specificity",
+      "question": "What is the minimum permitted temperature of the dressing room?",
+      "expectedBehaviour": "refuse",
+      "verified": true,
+      "note": "CONFIRMED safe. Chapter V covers stadiums, pitches, artificial turf, floodlights and technologies — no dressing-room environmental spec. Sounds exactly like a clause this document might contain, which is the point."
+    }
+  ]
+}

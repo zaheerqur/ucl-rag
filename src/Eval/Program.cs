@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 // Config
 // ---------------------------------------------------------------------------
 var config = new ConfigurationBuilder()
+    .SetBasePath(AppContext.BaseDirectory)
     .AddJsonFile("appsettings.json", optional: true)
     .AddEnvironmentVariables()
     .AddCommandLine(args)
@@ -38,9 +39,25 @@ var jsonOpts = new JsonSerializerOptions
     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
 };
 
-var questions = JsonSerializer.Deserialize<List<Question>>(
-    await File.ReadAllTextAsync(questionsPath), jsonOpts)
-    ?? throw new InvalidOperationException("Failed to deserialize questions file");
+// The file may be either a flat array OR { "_readme":…, "answerable":[…], "unanswerable":[…] }.
+List<Question> questions;
+{
+    var raw = await File.ReadAllTextAsync(questionsPath);
+    using var doc = JsonDocument.Parse(raw);
+    if (doc.RootElement.ValueKind == JsonValueKind.Array)
+    {
+        questions = JsonSerializer.Deserialize<List<QuestionDto>>(raw, jsonOpts)!
+            .Select(q => q.ToQuestion(q.Answerable ?? true)).ToList();
+    }
+    else
+    {
+        var file = JsonSerializer.Deserialize<QuestionsFile>(raw, jsonOpts)!;
+        questions = [
+            ..(file.Answerable   ?? []).Select(q => q.ToQuestion(true)),
+            ..(file.Unanswerable ?? []).Select(q => q.ToQuestion(false)),
+        ];
+    }
+}
 
 Console.WriteLine($"Loaded {questions.Count} questions from {questionsPath}");
 
@@ -316,3 +333,23 @@ record RunResult(
     double AbstentionRate,
     double? ToolCallAccuracy,
     List<QuestionResult> Questions);
+
+// DTOs for deserializing questions.json (supports both flat array and nested object)
+record QuestionsFile(
+    List<QuestionDto>? Answerable,
+    List<QuestionDto>? Unanswerable);
+
+record QuestionDto(
+    string Id,
+    [property: JsonPropertyName("question")] string Text,
+    string? GoldParagraph,
+    bool? Answerable,
+    bool? ExpectsToolCall)
+{
+    public Question ToQuestion(bool answerable) => new(
+        Id: Id,
+        Text: Text,
+        GoldParagraph: GoldParagraph ?? "",
+        Answerable: answerable,
+        ExpectsToolCall: ExpectsToolCall ?? false);
+}
