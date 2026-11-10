@@ -14,6 +14,9 @@ secrets.json
 *.suo
 *.DotSettings.user
 
+# Claude Code local settings (machine-specific, never shared)
+.claude/settings.local.json
+
 # OS
 .DS_Store
 Thumbs.db

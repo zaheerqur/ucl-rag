@@ -5,4 +5,5 @@ public record AskResponse(
     IReadOnlyList<Citation> Citations,
     bool UsedTool,
     string RetrievalMode,
-    IReadOnlyList<string> RetrievedParagraphRefs);
+    IReadOnlyList<string> RetrievedParagraphRefs,
+    bool ParseFailed = false);

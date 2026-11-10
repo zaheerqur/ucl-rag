@@ -1,7 +1,10 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Azure;
+using Azure.AI.OpenAI;
 using Microsoft.Extensions.Configuration;
+using OpenAI.Chat;
 
 // ---------------------------------------------------------------------------
 // Config
@@ -9,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 var config = new ConfigurationBuilder()
     .SetBasePath(AppContext.BaseDirectory)
     .AddJsonFile("appsettings.json", optional: true)
+    .AddUserSecrets("ucl-rag-api", reloadOnChange: false)
     .AddEnvironmentVariables()
     .AddCommandLine(args)
     .Build();
@@ -18,6 +22,20 @@ string questionsPath = config["Eval:QuestionsPath"] ?? "eval/questions.json";
 string resultsDir   = config["Eval:ResultsDir"]   ?? "eval/results";
 int    topK         = int.Parse(config["Eval:TopK"] ?? "10");
 int    rrfK         = int.Parse(config["Eval:RrfK"] ?? "60");
+int    timeoutSeconds = int.Parse(config["Eval:TimeoutSeconds"] ?? "600");
+string? modelLabel  = config["Eval:ModelLabel"];
+
+// The judge always runs on Azure, regardless of which provider answered the question,
+// so every model in the comparison is graded by the same reference model.
+string azureEndpoint = config["AzureOpenAI:Endpoint"]
+    ?? throw new InvalidOperationException("Missing AzureOpenAI:Endpoint (needed for the judge model).");
+string azureApiKey = config["AzureOpenAI:ApiKey"]
+    ?? throw new InvalidOperationException(
+        "Missing AzureOpenAI:ApiKey. Set with: dotnet user-secrets set \"AzureOpenAI:ApiKey\" \"<key>\" --project ../Api");
+string judgeDeployment = config["Judge:Deployment"] ?? "gpt-4o";
+
+ChatClient judgeClient = new AzureOpenAIClient(new Uri(azureEndpoint), new AzureKeyCredential(azureApiKey))
+    .GetChatClient(judgeDeployment);
 
 // Resolve questionsPath relative to working directory or walk up to repo root
 questionsPath = ResolveFromRoot(questionsPath) ?? questionsPath;
@@ -64,7 +82,13 @@ Console.WriteLine($"Loaded {questions.Count} questions from {questionsPath}");
 // ---------------------------------------------------------------------------
 // Run each question against the API
 // ---------------------------------------------------------------------------
-using var http = new HttpClient { BaseAddress = new Uri(apiBaseUrl) };
+// Local models are slow and have no fixed upper bound on latency (cold model load,
+// CPU-only inference), so the default 100s HttpClient timeout would cut them off mid-answer.
+using var http = new HttpClient
+{
+    BaseAddress = new Uri(apiBaseUrl),
+    Timeout = TimeSpan.FromSeconds(timeoutSeconds),
+};
 
 var questionResults = new List<QuestionResult>();
 string? detectedMode = null;
@@ -89,7 +113,7 @@ for (int i = 0; i < questions.Count; i++)
         errorMessage = ex.Message;
     }
 
-    var result = Score(q, apiResponse, errorMessage);
+    var result = await Score(q, apiResponse, errorMessage, judgeClient);
     questionResults.Add(result);
 
     Console.WriteLine(SummaryIcon(result));
@@ -110,29 +134,36 @@ int hitCount        = answerable.Count(r => r.Hit);
 int citedCount      = answerable.Count(r => r.Cited);
 int abstainedCount  = unanswerable.Count(r => r.Abstained);
 int toolCorrectCount = toolExpected.Count(r => r.ToolCallCorrect == true);
+int answerCorrectCount = answerable.Count(r => r.AnswerCorrect == true);
+int parseFailureCount  = questionResults.Count(r => r.ParseFailed);
 
 double hitRate        = answerable.Count  > 0 ? (double)hitCount       / answerable.Count  : 0;
 double citationAcc    = answerable.Count  > 0 ? (double)citedCount     / answerable.Count  : 0;
 double abstentionRate = unanswerable.Count > 0 ? (double)abstainedCount / unanswerable.Count : 0;
 double? toolCallAcc   = toolExpected.Count > 0 ? (double)toolCorrectCount / toolExpected.Count : null;
+double answerAccuracy = answerable.Count  > 0 ? (double)answerCorrectCount / answerable.Count : 0;
 
 // ---------------------------------------------------------------------------
 // Print table
 // ---------------------------------------------------------------------------
 PrintTable(questionResults, retrievalMode, topK, rrfK);
 PrintSummary(answerable.Count, unanswerable.Count, toolExpected.Count,
-             hitRate, citationAcc, abstentionRate, toolCallAcc);
+             hitRate, citationAcc, abstentionRate, toolCallAcc, answerAccuracy, parseFailureCount);
+PrintJudgeVerdicts(answerable);
 
 // ---------------------------------------------------------------------------
 // Write results file
 // ---------------------------------------------------------------------------
 Directory.CreateDirectory(resultsDir);
 string timestamp = DateTime.UtcNow.ToString("yyyyMMddTHHmmss");
-string fileName  = $"{timestamp}_{retrievalMode}.json";
+string fileName  = modelLabel is not null
+    ? $"{modelLabel}-{DateTime.UtcNow:yyyy-MM-dd}.json"
+    : $"{timestamp}_{retrievalMode}.json";
 string outPath   = Path.Combine(resultsDir, fileName);
 
 var runResult = new RunResult(
     Timestamp:       DateTime.UtcNow.ToString("o"),
+    ModelLabel:      modelLabel,
     RetrievalMode:   retrievalMode,
     TopK:            topK,
     RrfK:            rrfK,
@@ -143,6 +174,8 @@ var runResult = new RunResult(
     CitationAccuracy: citationAcc,
     AbstentionRate:  abstentionRate,
     ToolCallAccuracy: toolCallAcc,
+    AnswerAccuracy:  answerAccuracy,
+    ParseFailureCount: parseFailureCount,
     Questions:       questionResults);
 
 await File.WriteAllTextAsync(outPath,
@@ -154,13 +187,20 @@ return 0;
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-static QuestionResult Score(Question q, AskResponse? resp, string? error)
+static async Task<QuestionResult> Score(Question q, AskResponse? resp, string? error, ChatClient judgeClient)
 {
     var goldRefs = ParseRefs(q.GoldParagraph);
     bool answerable = q.Answerable && goldRefs.Count > 0;
 
+    // A failed HTTP call counts the same as a response the model produced but that
+    // failed to parse: both mean "no usable answer for this question", not a crash.
+    bool parseFailed = resp?.ParseFailed ?? (error is not null);
+
     if (resp is null)
     {
+        bool? judgeSkippedCorrect = answerable ? false : null;
+        string? judgeSkippedReason = answerable ? $"skipped: no response ({error})" : null;
+
         return new QuestionResult(
             Id: q.Id,
             Question: q.Text,
@@ -175,6 +215,9 @@ static QuestionResult Score(Question q, AskResponse? resp, string? error)
             Answer: null,
             RetrievedParagraphRefs: [],
             CitedParagraphRefs: [],
+            ParseFailed: true,
+            AnswerCorrect: judgeSkippedCorrect,
+            JudgeReason: judgeSkippedReason,
             Error: error);
     }
 
@@ -190,6 +233,21 @@ static QuestionResult Score(Question q, AskResponse? resp, string? error)
 
     bool? toolCorrect = q.ExpectsToolCall ? resp.UsedTool : null;
 
+    bool? answerCorrect = null;
+    string? judgeReason = null;
+    if (answerable)
+    {
+        if (parseFailed)
+        {
+            answerCorrect = false;
+            judgeReason = "skipped: response failed to parse into an answer";
+        }
+        else
+        {
+            (answerCorrect, judgeReason) = await JudgeAnswer(judgeClient, q.Text, q.GoldAnswer ?? "", resp.Answer);
+        }
+    }
+
     return new QuestionResult(
         Id: q.Id,
         Question: q.Text,
@@ -204,7 +262,60 @@ static QuestionResult Score(Question q, AskResponse? resp, string? error)
         Answer: resp.Answer,
         RetrievedParagraphRefs: retrieved.ToList(),
         CitedParagraphRefs: cited,
+        ParseFailed: parseFailed,
+        AnswerCorrect: answerCorrect,
+        JudgeReason: judgeReason,
         Error: error);
+}
+
+static async Task<(bool Correct, string Reason)> JudgeAnswer(
+    ChatClient judgeClient, string question, string goldAnswer, string candidateAnswer)
+{
+    const string judgeSystemPrompt = """
+        You are grading whether a candidate answer to a question about the UEFA Champions
+        League regulations conveys the same factual content as the gold answer.
+
+        Mark it "correct" if the candidate states the same key fact(s) as the gold answer,
+        even with different wording or extra correct detail.
+        Mark it "incorrect" if it omits the key fact, contradicts the gold answer, states the
+        refusal text instead of answering, or is otherwise not supported by the gold answer.
+
+        Respond with valid JSON in exactly this format:
+        { "verdict": "correct", "reason": "<one sentence>" }
+        """;
+
+    string userPrompt = $"""
+        Question: {question}
+        Gold answer: {goldAnswer}
+        Candidate answer: {candidateAnswer}
+        """;
+
+    var options = new ChatCompletionOptions
+    {
+        ResponseFormat = ChatResponseFormat.CreateJsonObjectFormat(),
+        Temperature = 0,
+        MaxOutputTokenCount = 256,
+    };
+
+    try
+    {
+        var messages = new List<ChatMessage>
+        {
+            ChatMessage.CreateSystemMessage(judgeSystemPrompt),
+            ChatMessage.CreateUserMessage(userPrompt),
+        };
+        var result = await judgeClient.CompleteChatAsync(messages, options);
+        string raw = result.Value.Content[0].Text;
+
+        using var doc = JsonDocument.Parse(raw);
+        string verdict = doc.RootElement.GetProperty("verdict").GetString() ?? "incorrect";
+        string reason  = doc.RootElement.GetProperty("reason").GetString() ?? "";
+        return (string.Equals(verdict, "correct", StringComparison.OrdinalIgnoreCase), reason);
+    }
+    catch (Exception ex)
+    {
+        return (false, $"judge call failed: {ex.Message}");
+    }
 }
 
 static List<string> ParseRefs(string? raw)
@@ -216,9 +327,9 @@ static List<string> ParseRefs(string? raw)
 static void PrintTable(List<QuestionResult> results, string mode, int topK, int rrfK)
 {
     Console.WriteLine($"UCL RAG Evaluation  |  Mode: {mode}  |  TopK: {topK}  |  RrfK: {rrfK}");
-    Console.WriteLine(new string('=', 80));
-    Console.WriteLine($"  {"ID",-6} {"Question",-50} {"Hit",3} {"Cit",3} {"Abs",3} {"Tool",4}");
-    Console.WriteLine($"  {new string('-', 6)} {new string('-', 50)} {new string('-', 3)} {new string('-', 3)} {new string('-', 3)} {new string('-', 4)}");
+    Console.WriteLine(new string('=', 85));
+    Console.WriteLine($"  {"ID",-6} {"Question",-50} {"Hit",3} {"Cit",3} {"Abs",3} {"Tool",4} {"Ans",3}");
+    Console.WriteLine($"  {new string('-', 6)} {new string('-', 50)} {new string('-', 3)} {new string('-', 3)} {new string('-', 3)} {new string('-', 4)} {new string('-', 3)}");
 
     foreach (var r in results)
     {
@@ -226,14 +337,17 @@ static void PrintTable(List<QuestionResult> results, string mode, int topK, int 
         string cit  = !r.Answerable ? " - " : r.Cited  ? " Y " : " N ";
         string abs  =  r.Answerable ? " - " : r.Abstained ? " Y " : " N ";
         string tool = !r.ExpectsToolCall ? "  - " : r.ToolCallCorrect == true ? "  Y " : "  N ";
-        Console.WriteLine($"  {r.Id,-6} {Truncate(r.Question, 50),-50} {hit} {cit} {abs} {tool}");
+        string ans  = !r.Answerable ? " - " : r.AnswerCorrect == true ? " Y " : " N ";
+        string parseFlag = r.ParseFailed ? "  [PARSE FAIL]" : "";
+        Console.WriteLine($"  {r.Id,-6} {Truncate(r.Question, 50),-50} {hit} {cit} {abs} {tool} {ans}{parseFlag}");
     }
 
     Console.WriteLine();
 }
 
 static void PrintSummary(int answerable, int unanswerable, int toolQuestions,
-    double hitRate, double citationAcc, double abstentionRate, double? toolCallAcc)
+    double hitRate, double citationAcc, double abstentionRate, double? toolCallAcc,
+    double answerAccuracy, int parseFailureCount)
 {
     Console.WriteLine("Summary");
     Console.WriteLine($"  Answerable questions  : {answerable}");
@@ -245,16 +359,35 @@ static void PrintSummary(int answerable, int unanswerable, int toolQuestions,
         Console.WriteLine($"  Tool call accuracy    : {toolCallAcc:P1}  ({toolQuestions} questions)");
     else
         Console.WriteLine($"  Tool call accuracy    : n/a");
+    Console.WriteLine($"  Answer accuracy (judge): {answerAccuracy:P1}  ({answerable} questions)");
+    Console.WriteLine($"  Parse/response failures: {parseFailureCount}");
+}
+
+static void PrintJudgeVerdicts(List<QuestionResult> answerable)
+{
+    Console.WriteLine();
+    Console.WriteLine("Judge verdicts (answerable questions)");
+    Console.WriteLine(new string('=', 85));
+    foreach (var r in answerable)
+    {
+        string verdict = r.AnswerCorrect == true ? "CORRECT" : "INCORRECT";
+        Console.WriteLine($"  [{r.Id}] {verdict} — {r.Question}");
+        Console.WriteLine($"      gold:      {r.GoldParagraph}");
+        Console.WriteLine($"      answer:    {Truncate(r.Answer ?? "", 140)}");
+        Console.WriteLine($"      reason:    {r.JudgeReason}");
+        Console.WriteLine();
+    }
 }
 
 static string SummaryIcon(QuestionResult r)
 {
-    if (r.Error is not null) return $"ERROR: {r.Error}";
+    if (r.ParseFailed) return r.Error is not null ? $"PARSE/HTTP FAIL: {r.Error}" : "PARSE FAIL (invalid JSON)";
     if (!r.Answerable) return r.Abstained ? "abstained" : "FAILED to abstain";
     var parts = new List<string>();
     if (r.Hit)   parts.Add("hit");   else parts.Add("MISS");
     if (r.Cited) parts.Add("cited"); else parts.Add("NOT-CITED");
     if (r.ExpectsToolCall) parts.Add(r.ToolCallCorrect == true ? "tool-ok" : "TOOL-MISS");
+    parts.Add(r.AnswerCorrect == true ? "answer-correct" : "answer-INCORRECT");
     return string.Join(", ", parts);
 }
 
@@ -288,6 +421,7 @@ record Question(
     string Id,
     [property: JsonPropertyName("question")] string Text,
     string GoldParagraph,
+    string? GoldAnswer,
     bool Answerable,
     bool ExpectsToolCall);
 
@@ -296,7 +430,8 @@ record AskResponse(
     List<Citation>? Citations,
     bool UsedTool,
     string RetrievalMode,
-    List<string>? RetrievedParagraphRefs);
+    List<string>? RetrievedParagraphRefs,
+    bool ParseFailed = false);
 
 record Citation(
     string ArticleNumber,
@@ -318,10 +453,14 @@ record QuestionResult(
     string? Answer,
     List<string> RetrievedParagraphRefs,
     List<string> CitedParagraphRefs,
+    bool ParseFailed,
+    bool? AnswerCorrect,
+    string? JudgeReason,
     string? Error);
 
 record RunResult(
     string Timestamp,
+    string? ModelLabel,
     string RetrievalMode,
     int TopK,
     int RrfK,
@@ -332,6 +471,8 @@ record RunResult(
     double CitationAccuracy,
     double AbstentionRate,
     double? ToolCallAccuracy,
+    double AnswerAccuracy,
+    int ParseFailureCount,
     List<QuestionResult> Questions);
 
 // DTOs for deserializing questions.json (supports both flat array and nested object)
@@ -343,6 +484,7 @@ record QuestionDto(
     string Id,
     [property: JsonPropertyName("question")] string Text,
     string? GoldParagraph,
+    string? GoldAnswer,
     bool? Answerable,
     bool? ExpectsToolCall)
 {
@@ -350,6 +492,7 @@ record QuestionDto(
         Id: Id,
         Text: Text,
         GoldParagraph: GoldParagraph ?? "",
+        GoldAnswer: GoldAnswer,
         Answerable: answerable,
         ExpectsToolCall: ExpectsToolCall ?? false);
 }

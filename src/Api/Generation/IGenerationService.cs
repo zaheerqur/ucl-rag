@@ -10,4 +10,8 @@ public interface IGenerationService
         CancellationToken ct = default);
 }
 
-public record GenerationResult(string Answer, IReadOnlyList<string> UsedParagraphRefs, bool UsedTool = false);
+public record GenerationResult(
+    string Answer,
+    IReadOnlyList<string> UsedParagraphRefs,
+    bool UsedTool = false,
+    bool ParseFailed = false);
